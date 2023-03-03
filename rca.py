@@ -1,4 +1,12 @@
 import fileinput
+import re
+
+#Funcion para determinar si el texto claro tiene un hexadecimal
+def EncontrarHexa(texto):
+    patron = r'\b[0-9a-fA-F]+\b'
+    existe = re.findall(patron, texto)
+    return len(existe) > 0
+
 
 def KSA(key):
     key_length = len(key) 
@@ -31,21 +39,36 @@ def RC4(key):
 #    lines.append(line)
 
 key = "Key"
-textoclaro = "Plaintext"
-keystream = RC4(key)
-#convierte en bytes la cadena
-plaintext = [ord(c) for c in textoclaro] 
-ciphertext = []
-#zip es una función que itera al mismo tiempo en dos colecciones
-for p,k in zip(plaintext, keystream): 
-    #agrega un nuevo elemento que se le haya hecho xor
-    ciphertext.append(p ^ k) 
+#textoclaro = "Plaintext"
+textoclaro = "BBF316E8D940AF0AD3"
 
-#con chr(c) se toma el número ascii del for que recorre ciphertext y lo transforma a un caracter
-# con join() podemos unir toda la cadena de caracteres 
-ciphertext = ''.join([chr(c) for c in ciphertext])
+if EncontrarHexa(textoclaro):
+    #convierte en bytes el número hexadecimal
+    plaintext = bytes.fromhex(textoclaro.replace(' ', ''))
+    keystream = RC4(key)
+    ciphertext = []
+    #zip es una función que itera al mismo tiempo en dos colecciones
+    for p,k in zip(plaintext, keystream): 
+        #agrega un nuevo elemento que se le haya hecho xor
+        ciphertext.append(p ^ k) 
 
-print(ciphertext)
+    #con chr(c) se toma el número ascii del for que recorre ciphertext y lo transforma a un caracter
+    # con join() podemos unir toda la cadena de caracteres 
+    ciphertext = ''.join([chr(c) for c in ciphertext])
+    print(ciphertext)
 
+else:
+    keystream = RC4(key)
+    #convierte en bytes la cadena
+    plaintext = [ord(c) for c in textoclaro] 
+    ciphertext = []
+    #zip es una función que itera al mismo tiempo en dos colecciones
+    for p,k in zip(plaintext, keystream): 
+        #agrega un nuevo elemento que se le haya hecho xor
+        ciphertext.append(p ^ k) 
 
+    #con format(c, '02X') se toma el número ascii del for que recorre ciphertext y lo transforma a hexadecimal en formato tradicional
+    # con join() podemos unir toda la cadena de caracteres 
+    ciphertext = ''.join([format(c, '02X') for c in ciphertext])
+    print(ciphertext)
 
