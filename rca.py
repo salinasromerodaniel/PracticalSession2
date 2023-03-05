@@ -3,7 +3,8 @@ import re
 
 #Funcion para determinar si el texto claro tiene un hexadecimal
 def EncontrarHexa(texto):
-    patron = r'\b[0-9a-fA-F]+\b'
+    existe = 0
+    patron = r'\b[0-9A-F]+\b'
     existe = re.findall(patron, texto)
     return len(existe) > 0
 
@@ -39,10 +40,10 @@ def RC4(key):
 #    lines.append(line)
 
 key = "Key"
-#textoclaro = "Plaintext"
-textoclaro = "BBF316E8D940AF0AD3"
+textoclaro = "A ver"
+#textoclaro = "BBF316E8D940AF0AD3"
 
-if EncontrarHexa(textoclaro):
+if (EncontrarHexa(textoclaro)==True):
     #convierte en bytes el número hexadecimal
     plaintext = bytes.fromhex(textoclaro.replace(' ', ''))
     keystream = RC4(key)
