@@ -35,12 +35,12 @@ def RC4(key):
     return PRGA(S)
 
 #Para obtener el input de la llave y el texto claro
-#lines = []
-#for line in fileinput.input():
-#    lines.append(line)
+lines = []
+for line in fileinput.input():
+    lines.append(line)
 
-key = "Key"
-textoclaro = "A ver"
+key = lines[0]
+textoclaro = lines[1]
 #textoclaro = "BBF316E8D940AF0AD3"
 
 if (EncontrarHexa(textoclaro)==True):
