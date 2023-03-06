@@ -39,37 +39,25 @@ lines = []
 for line in fileinput.input():
     lines.append(line)
 
-key = lines[0]
-textoclaro = lines[1]
+key = lines[0].strip()
+textoclaro = lines[1].strip()
+#key = "Secret"
+#textoclaro = "Attack at dawn"
 #textoclaro = "BBF316E8D940AF0AD3"
 
-if (EncontrarHexa(textoclaro)==True):
-    #convierte en bytes el número hexadecimal
-    plaintext = bytes.fromhex(textoclaro.replace(' ', ''))
-    keystream = RC4(key)
-    ciphertext = []
-    #zip es una función que itera al mismo tiempo en dos colecciones
-    for p,k in zip(plaintext, keystream): 
-        #agrega un nuevo elemento que se le haya hecho xor
-        ciphertext.append(p ^ k) 
 
-    #con chr(c) se toma el número ascii del for que recorre ciphertext y lo transforma a un caracter
-    # con join() podemos unir toda la cadena de caracteres 
-    ciphertext = ''.join([chr(c) for c in ciphertext])
-    print(ciphertext)
 
-else:
-    keystream = RC4(key)
-    #convierte en bytes la cadena
-    plaintext = [ord(c) for c in textoclaro] 
-    ciphertext = []
-    #zip es una función que itera al mismo tiempo en dos colecciones
-    for p,k in zip(plaintext, keystream): 
-        #agrega un nuevo elemento que se le haya hecho xor
-        ciphertext.append(p ^ k) 
+keystream = RC4(key)
+#convierte en bytes la cadena
+plaintext = [ord(c) for c in textoclaro] 
+ciphertext = []
+#zip es una función que itera al mismo tiempo en dos colecciones
+for p,k in zip(plaintext, keystream): 
+    #agrega un nuevo elemento que se le haya hecho xor
+    ciphertext.append(p ^ k) 
 
-    #con format(c, '02X') se toma el número ascii del for que recorre ciphertext y lo transforma a hexadecimal en formato tradicional
-    # con join() podemos unir toda la cadena de caracteres 
-    ciphertext = ''.join([format(c, '02X') for c in ciphertext])
-    print(ciphertext)
+#con format(c, '02X') se toma el número ascii del for que recorre ciphertext y lo transforma a hexadecimal en formato tradicional
+# con join() podemos unir toda la cadena de caracteres 
+ciphertext = ''.join([format(c, '02X') for c in ciphertext])
+print(ciphertext)
 
